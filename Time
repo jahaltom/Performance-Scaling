@@ -1,0 +1,8 @@
+ls -lhs | grep "slurm"  | awk '{print $NF}' | sed 's/-/ /g' | sed 's/\./ /g' | awk '{print $2}' > list
+
+
+cat list | while read p; do
+  sacct -l -j $p | grep "COMPLETED" | awk '{print $6}' | head -1 >> times
+done 
+
+
