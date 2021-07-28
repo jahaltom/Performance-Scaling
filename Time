@@ -1,8 +1,14 @@
+#List all jobids 
 ls -lhs | grep "slurm"  | awk '{print $NF}' | sed 's/-/ /g' | sed 's/\./ /g' | awk '{print $2}' > list
 
-
+#Gather total time for each job
 cat list | while read p; do
   sacct -l -j $p | grep "COMPLETED" | awk '{print $6}' | head -1 >> times
 done 
+
+#Average
+awk '{ total += $1 } END { print total/NR }' times
+
+
 
 
