@@ -8,6 +8,11 @@ done
 
 #Average
 awk '{ total += $1 } END { print total/NR }' times
+#Total
+awk '{ total += $1 } END { print total }' times
+
+
+
 
 
 
