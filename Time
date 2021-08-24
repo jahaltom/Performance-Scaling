@@ -3,8 +3,13 @@ ls -lhs | grep "slurm"  | awk '{print $NF}' | sed 's/-/ /g' | sed 's/\./ /g' | a
 
 #Gather total time for each job in hours. 
 cat list | while read p; do
-  sacct -l -j $p | grep "COMPLETED" | awk '{print $6}' | head -1 | sed 's/:/ /g' | awk '{print $1+$2/60+$3/60/60}' | sort -n  >> times
+  seff $p | grep "Job Wall-clock time" | awk '{print $NF}' | sed 's/:/ /g' | awk '{print $1+$2/60+$3/60/60}'   >> times
 done 
+rm list
+
+
+
+
 
 #Average
 awk '{ total += $1 } END { print total/NR }' times
